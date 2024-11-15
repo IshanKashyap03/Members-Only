@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Members Only</title>
+</head>
+<body>
+    <h1>Join The Club</h1>
+    <% if (membership_status === "inactive") { %>
+        <form action="/join/<%= username %>" method="POST">
+            <label for="secret_key">Enter the secret key:</label>
+            <input name="secret_key" id="secret_key">
+            <button type="submit">Join The Club</button>
+        </form>
+    <% } else { %>
+        <a href="/">Home Page</a>
+        <p>You are already a part of the club!</p>
+    <% } %>    
+    <% if (error && error.length > 0) { %>
+        <div style="color: red;">
+            <% error.forEach(err => { %>
+                <p><%= err.msg %></p>
+            <% }) %>
+        </div>
+    <% } %>
+</body>
+</html>
