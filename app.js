@@ -3,8 +3,8 @@ const path = require("node:path");
 const userRouter = require("./routes/userRoutes")
 const session = require('express-session');
 
-
 const app = express();
+const methodOverride = require('method-override');
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 app.use(
@@ -16,7 +16,7 @@ app.use(
     })
 );
 app.use(express.urlencoded({ extended: false }));
-
+app.use(methodOverride('_method'));
 app.use("/", userRouter);
 
 

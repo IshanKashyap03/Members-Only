@@ -5,7 +5,8 @@ const { validationResult } = require('express-validator');
 async function usersGet(req, res){
     const messages = await getMessages();
     const isMember = req.session.membership_status === "active";
-    res.render("index", {username: req.session.username || null, messages : messages, isMember: isMember});
+    const isAdmin = req.session.is_admin === "true";
+    res.render("index", {username: req.session.username || null, messages : messages, isMember: isMember, isAdmin: isAdmin});
 } 
 
 async function getMessages(req, res) {
@@ -145,6 +146,21 @@ async function usersBecomeAdminPost(req, res){
    
 }
 
+async function usersMessagesDelete(req, res){
+    const username = req.params.username;
+    const user_id = await db.getUserId(username);
+    const messages = await getMessages();
+    const isMember = req.session.membership_status === "active";
+    const isAdmin = req.session.is_admin === "true";
+    try{
+        await db.deleteMessage(user_id);
+        res.redirect("/");
+    }catch(error) {
+        console.error("Error deleting message", error);
+        res.status(500).render("index", { username: username, messages : messages, isMember: isMember, isAdmin: isAdmin, error: [{msg: "Internal Server Error. Please try again later."}] });
+    } 
+}
+
 
 module.exports = {
     usersGet,
@@ -157,5 +173,7 @@ module.exports = {
     userCreateMessageGet,
     userCreateMessagePost,
     usersBecomeAdminGet,
-    usersBecomeAdminPost
+    usersBecomeAdminPost,
+    usersMessagesDelete
+    
 }

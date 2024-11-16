@@ -13,15 +13,24 @@
         <a href="/become-admin/<%= username %>"><button type="submit">Become an Admin</button></a>
         <% if (messages && messages.length > 0) { %>
             <% for(var i = 0; i < messages.length; i++) { %>
-                <% if(isMember) { %>
+                <% if(isAdmin) { %>
+                    <div>
+                        <%= messages[i].title %>
+                        <%= messages[i].content %>
+                        <%= messages[i].username %>
+                        <%= messages[i].timestamp %>
+                        <form action="/<%= username %>?_method=DELETE" method="POST" style="display: inline;">
+                            <button type="submit">Delete</button>
+                        </form>     
+                    </div>
+                <%} else if(isMember) { %>
                     <div>
                         <%= messages[i].title %>
                         <%= messages[i].content %>
                         <%= messages[i].username %>
                         <%= messages[i].timestamp %>
                     </div>
-                <% 
-                }else{ %>
+                <% }else{ %>
                     <div>
                         <%= messages[i].title %>
                         <%= messages[i].content %>

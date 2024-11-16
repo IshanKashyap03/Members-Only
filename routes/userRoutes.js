@@ -43,5 +43,6 @@ userRouter.post("/become-admin/:username",
         return true; 
     }),
     userController.usersBecomeAdminPost);
+userRouter.delete("/:username", userController.usersMessagesDelete);
 
 module.exports = userRouter;
