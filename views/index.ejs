@@ -10,6 +10,7 @@
         <p>Welcome, <%= username %>!</p>
         <a href="/create-message/<%= username %>"><button>Create a new message</button></a>
         <a href="/join/<%= username %>"><button type="submit">Become an exclusive member</button></a>
+        <a href="/become-admin/<%= username %>"><button type="submit">Become an Admin</button></a>
         <% if (messages && messages.length > 0) { %>
             <% for(var i = 0; i < messages.length; i++) { %>
                 <% if(isMember) { %>

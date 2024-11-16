@@ -9,7 +9,8 @@ CREATE TABLE IF NOT EXISTS users (
     last_name VARCHAR(255) NOT NULL,
     username VARCHAR(255) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
-    membership_status VARCHAR(50) NOT NULL
+    membership_status VARCHAR(50) NOT NULL,
+    is_admin VARCHAR(50) DEFAULT 'false'
 )
 `
 

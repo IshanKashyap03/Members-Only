@@ -5,7 +5,6 @@ const { validationResult } = require('express-validator');
 async function usersGet(req, res){
     const messages = await getMessages();
     const isMember = req.session.membership_status === "active";
-    console.log(isMember);
     res.render("index", {username: req.session.username || null, messages : messages, isMember: isMember});
 } 
 
@@ -121,6 +120,31 @@ async function userCreateMessagePost(req, res){
     }
 }
 
+async function usersBecomeAdminGet(req, res){
+    const username = req.params.username;
+    const isAdmin = req.session.is_admin === "true";
+    res.render("become-admin-form", {username: username, isAdmin: isAdmin, error: null});
+}
+
+async function usersBecomeAdminPost(req, res){
+    const username = req.params.username;
+    const isAdmin = req.session.is_admin;
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+        return res.render("become-admin-form", { username: username, isAdmin: isAdmin, error: errors.array() });
+    }else{
+        try{
+            await db.adminStatusUpdate(username);
+            req.session.is_admin = "true";
+            res.redirect("/");
+        }catch(error) {
+            console.error("Error becoming an admin", error);
+            res.status(500).render("become-admin-form", { username: username, isAdmin: isAdmin, error: [{msg: "Internal Server Error. Please try again later."}] });
+        } 
+    }
+   
+}
+
 
 module.exports = {
     usersGet,
@@ -131,5 +155,7 @@ module.exports = {
     userLoginGet,
     userLoginPost,
     userCreateMessageGet,
-    userCreateMessagePost
+    userCreateMessagePost,
+    usersBecomeAdminGet,
+    usersBecomeAdminPost
 }

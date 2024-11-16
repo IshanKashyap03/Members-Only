@@ -38,6 +38,10 @@ async function getMessages(){
     return rows;
 }
 
+async function adminStatusUpdate(username){
+    await pool.query("UPDATE users SET is_admin = $1 WHERE username = $2", ["true", username]); 
+}
+
 module.exports = {
     insertUser,
     updateMembershipStatus,
@@ -45,5 +49,6 @@ module.exports = {
     getMembershipStatus,
     getPassword,
     insertMessage,
-    getMessages
+    getMessages,
+    adminStatusUpdate
 }

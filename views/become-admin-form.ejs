@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Members Only</title>
+</head>
+<body>
+    <a href="/">Home Page</a>
+    <h1>Become an Admin</h1>
+    <% if (isAdmin === false) { %>
+        <form action="/become-admin/<%= username %>" method="POST">
+            <label for="secret_key">Enter the secret key:</label>
+            <input name="secret_key" id="secret_key">
+            <button type="submit">Become an Admin</button>
+        </form>
+    <% } else { %>
+        <p>You are already an Admin!</p>
+    <% } %>    
+    <% if (error && error.length > 0) { %>
+        <div style="color: red;">
+            <% error.forEach(err => { %>
+                <p><%= err.msg %></p>
+            <% }) %>
+        </div>
+    <% } %>
+</body>
+</html>

@@ -34,4 +34,14 @@ userRouter.post("/create-message/:username",
     body('content').trim().notEmpty().withMessage("Content is required"),
     userController.userCreateMessagePost);
 
+userRouter.get("/become-admin/:username", userController.usersBecomeAdminGet);
+userRouter.post("/become-admin/:username",
+    body('secret_key').trim().notEmpty().withMessage("Secret Key is required to become an admin").custom((value) => {
+        if (value !== "admin") {
+            throw new Error("Invalid Secret Key");
+        }
+        return true; 
+    }),
+    userController.usersBecomeAdminPost);
+
 module.exports = userRouter;
