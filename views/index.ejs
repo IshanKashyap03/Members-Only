@@ -8,9 +8,29 @@
 <body>
     <% if (username) { %>
         <p>Welcome, <%= username %>!</p>
+        <a href="/create-message/<%= username %>"><button>Create a new message</button></a>
         <a href="/join/<%= username %>"><button type="submit">Become an exclusive member</button></a>
+        <% if (messages && messages.length > 0) { %>
+            <% for(var i = 0; i < messages.length; i++) { %>
+                <% if(isMember) { %>
+                    <div>
+                        <%= messages[i].title %>
+                        <%= messages[i].content %>
+                        <%= messages[i].username %>
+                        <%= messages[i].timestamp %>
+                    </div>
+                <% 
+                }else{ %>
+                    <div>
+                        <%= messages[i].title %>
+                        <%= messages[i].content %>
+                    </div>
+                <% } %>
+            <% } %>
+        <% } %>
     <% } else { %>
         <a href="sign-up">Sign up</a>
+        <a href="log-in">Log in</a>
         <p>Welcome, guest!</p>
     <% } %>
 </body>

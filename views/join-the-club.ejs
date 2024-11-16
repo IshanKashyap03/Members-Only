@@ -6,6 +6,7 @@
     <title>Members Only</title>
 </head>
 <body>
+    <a href="/">Home Page</a>
     <h1>Join The Club</h1>
     <% if (membership_status === "inactive") { %>
         <form action="/join/<%= username %>" method="POST">
@@ -14,7 +15,6 @@
             <button type="submit">Join The Club</button>
         </form>
     <% } else { %>
-        <a href="/">Home Page</a>
         <p>You are already a part of the club!</p>
     <% } %>    
     <% if (error && error.length > 0) { %>

@@ -23,5 +23,15 @@ userRouter.post("/join/:username",
         return true; 
     }),
     userController.usersJoinTheClubPost);
+userRouter.get("/log-in", userController.userLoginGet);
+userRouter.post("/log-in", 
+    body('username').trim().notEmpty().withMessage("Username is required"),
+    body('password').trim().notEmpty().withMessage("Password is required"),
+    userController.userLoginPost);
+userRouter.get("/create-message/:username", userController.userCreateMessageGet);
+userRouter.post("/create-message/:username", 
+    body('title').trim().notEmpty().withMessage("Title is required"),
+    body('content').trim().notEmpty().withMessage("Content is required"),
+    userController.userCreateMessagePost);
 
 module.exports = userRouter;
