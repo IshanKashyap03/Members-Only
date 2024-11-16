@@ -71,6 +71,7 @@ async function userLoginGet(req, res){
 async function userLoginPost(req, res){
     const {username, password} = req.body;
     const membership_status = await db.getMembershipStatus(username);
+    const is_admin = await db.getAdminStatus(username);
     const errors = validationResult(req);
     if(!errors.isEmpty()){
         return res.render("login-form", { error: errors.array() });
@@ -86,6 +87,7 @@ async function userLoginPost(req, res){
         }
         req.session.username = username;
         req.session.membership_status = membership_status;
+        req.session.is_admin = is_admin;
         res.redirect("/");
         }catch(error) {
             console.error("Error logging in", error);
@@ -136,7 +138,8 @@ async function usersBecomeAdminPost(req, res){
     }else{
         try{
             await db.adminStatusUpdate(username);
-            req.session.is_admin = "true";
+            const is_admin = await db.getAdminStatus(username);
+            req.session.is_admin = is_admin;
             res.redirect("/");
         }catch(error) {
             console.error("Error becoming an admin", error);

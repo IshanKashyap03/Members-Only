@@ -38,6 +38,11 @@ async function getMessages(){
     return rows;
 }
 
+async function getAdminStatus(username){
+    const {rows} = await pool.query("SELECT is_admin FROM users WHERE username = $1", [username]);
+    return rows[0].is_admin;
+}
+
 async function adminStatusUpdate(username){
     await pool.query("UPDATE users SET is_admin = $1 WHERE username = $2", ["true", username]); 
 }
@@ -55,5 +60,6 @@ module.exports = {
     insertMessage,
     getMessages,
     adminStatusUpdate,
-    deleteMessage
+    deleteMessage,
+    getAdminStatus
 }
